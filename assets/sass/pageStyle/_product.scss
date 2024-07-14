@@ -1,0 +1,238 @@
+.product {
+  padding: 20px 0 140px;
+  //   background-color: #67eb88;
+  .container {
+    // background-color: #d8bb28;
+    display: flex;
+    flex-direction: column;
+  }
+  .product-category {
+    display: flex;
+    text-align-last: left;
+    color: $categoty;
+    @include font(700, 25, 1.2);
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+    padding: 20px 0 30px;
+  }
+  .product-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 71px;
+  }
+  .product-img-price {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .product-img {
+    display: flex;
+    width: 500px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+  }
+  .product-title {
+    &-text {
+      color: $title;
+      @include font(700, 30, 1.2);
+    }
+  }
+  .product-rating-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+  }
+  //   alohida style beraman, alohida categoriya
+  .star-rating {
+    display: flex;
+    align-items: center;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .rating-reviews {
+    display: flex;
+    padding-left: 10px;
+    color: $grey;
+    @include font(400, 15, 1.2);
+  }
+  .sp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 16px;
+    width: 1px;
+    height: 16px;
+    background: $grey;
+  }
+  .brand {
+    display: flex;
+    color: $sub-title;
+    @include font(400, 18, 1.2);
+  }
+  .product-price {
+    &-text {
+      color: $sub-title;
+      @include font(400, 22, 1.2);
+      letter-spacing: 1px;
+    }
+  }
+  .product-desc {
+    display: flex;
+    padding: 24px 0;
+    width: 80%;
+    border-bottom: 1px solid $grey;
+    .text {
+      color: $sub-title;
+      @include font(400, 18, 1.2);
+      padding-right: 27px;
+      letter-spacing: 0.5px;
+    }
+  }
+  //   alohida category qilib ketaman
+  .product-active-btn {
+    display: flex;
+    align-items: center;
+    padding: 24px 0 40px;
+    gap: 20px;
+  }
+  .product-cart {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  .product-count {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    border-radius: 8px;
+    padding: 9px;
+    background: #f2f2f2;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+      drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    span {
+      display: flex;
+      color: #000;
+      @include font(700, 18, 1.2);
+    }
+  }
+  .card-like-btn {
+    display: flex;
+  }
+}
+.cart-modal{
+  width: 100%;
+  padding: 30px 15px;
+  text-align: center;
+}
+.cart-modal-title{
+  color: $title;
+  @include font(700, 24, 1.2);
+}
+
+@include media(931px) {
+  .product {
+    .product-img {
+      width: 450px;
+    }
+    .product-desc {
+      width: 100%;
+      .text {
+        padding: 0;
+      }
+    }
+  }
+}
+@include media(901px) {
+  .product {
+    .product-title-text {
+      font-size: 28px;
+    }
+    .product-rating-wrapper {
+      gap: 5px;
+      flex-wrap: wrap;
+      .sp {
+        display: none;
+      }
+    }
+    .product-brand {
+      width: 100%;
+      .brand {
+        font-size: 16px;
+      }
+    }
+    .product-desc {
+      .text {
+        font-size: 16px;
+      }
+    }
+  }
+}
+@include media(821px) {
+  .product {
+    padding: 15px 0 80px;
+    .product-img {
+      width: 400px;
+    }
+    .product-wrapper {
+      align-items: start;
+    }
+  }
+}
+@include media(751px) {
+  .product {
+    .product-category{
+      font-size: 22px;
+    }
+    .product-wrapper {
+      flex-direction: column;
+      align-items: center;
+      gap: 50px;
+    }
+    .product-img{
+      width: 450px;
+    }
+  }
+}
+@include media(551px){
+  .product{
+    .product-img{
+      width: 400px;
+    }
+  }
+}
+@include media(421px){
+  .product{
+    padding: 0;
+    .product-category{
+      font-size: 18px;
+    }
+    .product-wrapper{
+      gap: 30px;
+    }
+    .product-img{
+      width: 300px;
+    }
+    .product-title-text{
+      font-size: 24px;
+    }
+    .product-desc{
+      .text{
+        font-size: 14px;
+      }
+    }
+  }
+}
