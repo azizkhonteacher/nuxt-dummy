@@ -40,13 +40,13 @@
         </div>
         <div class="right-active-btns">
           <div class="header-search">
-            <input type="text" placeholder="Search..." class="category-text"/>
+            <input type="text" placeholder="Search..." class="category-text" v-model="searchVal" @input="search(), show = true"/>
 
-            <!-- <ul v-show="searchResult.length" class="search-result-ul">
-              <li v-for="item in searchResult" :key="item.id">
-                <a class="search-result" href="#">{{ item.title }}</a>
+            <ul v-if="searchVal" v-show="show" class="search-result-ul">
+              <li v-for="item in searchList.products" :key="item">
+                <NuxtLink :to="`/product/${item?.id}`" @click="(show = !show), (searchVal = '')" class="search-result">{{ item?.title }}</NuxtLink>
               </li>
-            </ul> -->
+            </ul>
             <svg
               height="12px"
               id="Layer_1"
@@ -65,7 +65,7 @@
           </div>
           <div class="active-btns">
             <NuxtLink to="/like" class="like-active-btn active-btn">
-              <span class="active-btn-span">654</span>
+              <span class="active-btn-span">{{ store.like.length }}</span>
               <svg
                 enable-background="new 0 0 50 50"
                 height="50px"
@@ -169,7 +169,11 @@
             "
           >
             <div class="site-logo">
-              <NuxtLink class="site-logo-link" to="/">
+              <NuxtLink class="site-logo-link" to="/" @click="
+                    (showModal = false),
+                      (showBurger = false),
+                      (showCategoryBurger = false)
+                  ">
                 <img src="@/assets/images/Site-Logo.png" alt="img" />
               </NuxtLink>
             </div>
@@ -192,8 +196,12 @@
             </button>
           </div>
           <div class="active-btns">
-            <NuxtLink to="/like" class="like-active-btn active-btn">
-              <span class="active-btn-span">654</span>
+            <NuxtLink to="/like" class="like-active-btn active-btn" @click="
+                    (showModal = false),
+                      (showBurger = false),
+                      (showCategoryBurger = false)
+                  ">
+              <span class="active-btn-span">{{ store.like.length }}</span>
               <svg
                 enable-background="new 0 0 50 50"
                 height="50px"
@@ -216,7 +224,11 @@
                 />
               </svg>
             </NuxtLink>
-            <NuxtLink to="/cart" class="cart-active-btn active-btn">
+            <NuxtLink to="/cart" class="cart-active-btn active-btn" @click="
+                    (showModal = false),
+                      (showBurger = false),
+                      (showCategoryBurger = false)
+                  ">
               <span class="active-btn-span">{{ cartCount }}</span>
               <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                 <rect fill="none" height="256" width="256" />
@@ -262,10 +274,18 @@
           <!-- category -->
           <ul class="category-list">
             <li class="category-list-link">
-              <NuxtLink to="/" class="category-text">Home</NuxtLink>
+              <NuxtLink to="/" class="category-text" @click="
+                    (showModal = false),
+                      (showBurger = false),
+                      (showCategoryBurger = false)
+                  ">Home</NuxtLink>
             </li>
             <li class="category-list-link">
-              <NuxtLink to="/about-view" class="category-text">About</NuxtLink>
+              <NuxtLink to="/about-view" class="category-text" @click="
+                    (showModal = false),
+                      (showBurger = false),
+                      (showCategoryBurger = false)
+                  ">About</NuxtLink>
             </li>
             <li class="category-list-link">
               <button
@@ -332,9 +352,7 @@
 
     <NuxtPage />
 
-    <footer>
-     ,hv
-    </footer>
+    <footer></footer>
   </div>
 </template>
 
@@ -345,6 +363,8 @@ const showModal = ref(false);
 const showCategory = ref(false);
 const showCategoryBurger = ref(false);
 const showBurger = ref(false);
+
+const show = ref(true)
 
 import { useStore } from "~/store/store";
 import services from "~/services/services";
@@ -366,20 +386,13 @@ const getCategorys = async () => {
 };
 getCategorys();
 
-// search
-// let search = ref("")
-// const searchResult = ref([])
-// const getSearch = async () => {
-//   const res = await fetch('https://dummyjson.com/products/search?q=', {
-//     method: "POST",
-//     body: JSON.stringify({
-//       search: search.value,
-//     }),
-//   });
-//   const data = await res.json();
-//   searchResult.value = data.products;
-// };
-// v-model="search" @input="getSearch"
+const searchVal = ref("")
+const searchList = ref([])
+
+async function search() {
+  const res = await services.getSearch(searchVal.value)
+  searchList.value = res
+}
 </script>
 
 <style lang="scss" scoped></style>

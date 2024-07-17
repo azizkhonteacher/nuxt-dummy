@@ -2,7 +2,7 @@
   <div>
     <div class="card">
       <div class="card-img">
-        <button class="card-like-btn">
+        <button class="card-like-btn" @click="addToLike(like)" :class="{'like-active':  checkLike}">
           <svg
             enable-background="new 0 0 50 50"
             height="50px"
@@ -26,7 +26,7 @@
           </svg>
         </button>
 
-        <img :src="product?.thumbnail" alt="img" />
+        <img :src="product?.thumbnail" alt="img"/>
       </div>
 
       <NuxtLink :to="`/product/${product?.id}`" class="card-title c-lr-padding">
@@ -42,7 +42,6 @@
         <p class="price">{{ product?.price }}$</p>
       </div>
 
-      <!-- cart tayyor emas -->
       <div class="card-cart">
         <button
         v-if="!productCart"
@@ -72,11 +71,6 @@
         </button>
         <div class="card-btns" v-else>
           <cartCount :product="product"/>
-          <!-- <div  class="product-count">
-            <button @click="remCountProduct(item)" class="cart-count">-</button>
-            <span>{{ productCart?.quantity }}</span>
-            <button @click="addCountProduct(item)" class="cart-count">+</button>
-          </div> -->
         </div>
       </div>
     </div>
@@ -86,7 +80,10 @@
 <script setup>
 import { useStore } from "~/store/store";
 
+
+
 import { addToCart } from "~/composables/addToCart";
+import { addToLike } from "~/composables/addToLike";
 import cartCount from "./icons/cart-count.vue";
 
 const store = useStore();
@@ -101,11 +98,34 @@ const item = computed(() => {
     category: product?.category,
     price: product?.price,
     id: product?.id,
+    rating: product?.rating,
+    brand: product?.brand,
     quantity: 1,
   };
   return item;
 });
 
+const like = computed(() => {
+  const item = {
+    title: product?.title,
+    thumbnail: product?.thumbnail,
+    category: product?.category,
+    price: product?.price,
+    rating: product?.rating,
+    brand: product?.brand,
+    id: product?.id,
+  };
+  return item;
+});
+
+const checkLike = computed(()=> {
+  const item = store.like.find((el) => el.id == product.id);
+  if (item) {
+    return true;
+  } else {
+    return false;
+  }
+})
 // korzina bosilganda
 const checkSaved = computed(() => {
   const item = store.cart.find((el) => el.id == product.id);

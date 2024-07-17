@@ -19,4 +19,7 @@ export default {
   getCategorysDetail(slug, limit){
     return $fetch(`${baseUrl.value}/products/category/${slug}?limit=${limit}`); 
   },
+  getSearch(s){
+    return $fetch(`${baseUrl.value}/products/search?q=${s}`);
+  }
 };

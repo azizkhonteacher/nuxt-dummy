@@ -13,4 +13,10 @@ onMounted(() => {
     store.cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
   }
 })
+
+onMounted(() => {
+  if(process.client){
+    store.like = localStorage.getItem('like') ? JSON.parse(localStorage.getItem('like')) : [];
+  }
+})
 </script>

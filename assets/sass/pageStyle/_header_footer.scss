@@ -1,7 +1,7 @@
 header {
   padding: 40px 0 20px;
   nav {
-    background-color: palegreen;
+    // background-color: palegreen;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -221,6 +221,9 @@ header {
 
 @include media(401px) {
   header {
+    .container{
+      padding: 10px 20px;
+    }
     nav {
       align-items: start;
     }

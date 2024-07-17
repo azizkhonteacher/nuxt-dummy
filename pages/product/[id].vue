@@ -20,7 +20,7 @@
           </div>
           <div class="product-rating-wrapper">
             <!-- bu yerini tuzatish kerak -->
-            <StarRating :rating="detail?.rating" />
+            <StarRating :rating="rating" />
             <p class="rating-reviews">
               ({{ detail?.reviews?.length }} Reviews)
             </p>
@@ -38,13 +38,13 @@
 
           <div class="product-active-btn">
             <div class="product-cart">
-              <div class="product-count card-btns">
-                <button class="cart-count">-</button>
-                <span>87</span>
-                <button class="cart-count">+</button>
-              </div>
-
-              <button class="cart-btn card-btns">
+              <!-- cart ga qo'shishni to'g'irlash -->
+              <button
+                class="cart-btn card-btns"
+                v-if="!productCart"
+                :class="{ 'active-cart': checkSaved }"
+                @click="addToCart(item)"
+              >
                 <svg
                   class="feather feather-shopping-cart"
                   fill="none"
@@ -77,11 +77,21 @@
                   />
                 </svg>
               </button>
+
+              <div class="card-btns" v-else>
+                <cartCount :product="detail" />
+              </div>
             </div>
 
-            <button class="like-active-btn active-btn">
+            <!-- like btn -->
+            <button
+              class="like-active-btn active-btn"
+              @click="addToLike(like)"
+              :class="{ 'like-active': checkLike }"
+            >
               <svg
                 enable-background="new 0 0 50 50"
+                widths="50px"
                 height="50px"
                 id="Layer_1"
                 version="1.1"
@@ -94,8 +104,8 @@
                 <rect fill="none" height="50" width="50" />
                 <path
                   d="M35,8  c-4.176,0-7.851,2.136-10,5.373C22.851,10.136,19.176,8,15,8C8.373,8,3,13.373,3,20c0,14,16,21,22,26c6-5,22-12,22-26  C47,13.373,41.627,8,35,8z"
-                  fill="none"
-                  stroke="#000000"
+                  fill="#C2C6D1"
+                  stroke="#C2C6D1"
                   stroke-linecap="round"
                   stroke-miterlimit="10"
                   stroke-width="2"
@@ -111,6 +121,12 @@
 
 <script setup>
 import services from "~/services/services";
+import { useStore } from "~/store/store";
+import { addToCart } from "~/composables/addToCart";
+import { addToLike } from "~/composables/addToLike";
+import cartCount from "~/components/icons/cart-count.vue";
+
+const store = useStore();
 const route = useRoute();
 const detail = ref({});
 async function getDetail() {
@@ -118,6 +134,61 @@ async function getDetail() {
   detail.value = res;
 }
 getDetail();
+const rating = computed(() => {
+  return detail.value?.rating;
+});
+
+const like = computed(() => {
+  const item = {
+    title: detail.value?.title,
+    thumbnail: detail.value?.thumbnail,
+    category: detail.value?.category,
+    price: detail.value?.price,
+    rating: detail?.rating,
+    brand: detail?.brand,
+    id: detail.value?.id,
+  };
+  return item;
+});
+
+const checkLike = computed(() => {
+  const item = store.like.find((el) => el.id == detail.value.id);
+  if (item) {
+    return true;
+  } else {
+    return false;
+  }
+});
+
+const item = computed(() => {
+  const item = {
+    title: detail.value?.title,
+    thumbnail: detail.value?.thumbnail,
+    category: detail.value?.category,
+    price: detail.value?.price,
+    id: detail.value?.id,
+    quantity: 1,
+  };
+  return item;
+});
+
+const checkSaved = computed(() => {
+  const item = store.cart.find((el) => el.id == detail.value?.id);
+  if (item) {
+    return true;
+  } else {
+    return false;
+  }
+});
+
+const productCart = computed(() => {
+  const item = store.cart.find((el) => el.id == detail.value?.id);
+  if (item) {
+    return item;
+  } else {
+    return false;
+  }
+});
 </script>
 
 <style lang="scss" scoped></style>
